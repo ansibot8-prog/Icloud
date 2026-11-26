@@ -1,12 +1,10 @@
-# Icloud-main/Dockerfile
-FROM python:3.10-slim
+FROM python:3.14-slim
+
+# Instalar Rust ANTES de cualquier pip install
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
 
 WORKDIR /app
-
-# Instalar dependencias del sistema necesarias para compilar si fuera necesario
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
